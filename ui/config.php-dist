@@ -1,0 +1,28 @@
+<?php
+
+/* $conf_api_url
+ *
+ * Set here the full URL to the API part of camera control
+ *
+ */
+$conf_api_url = 'http://localhost/cameracontrol/api/api.php';
+
+/* $conf_log_file
+ *
+ * Set the full or relative path to the log file.
+ * Be carefull, this file must be writable by web server user.
+ *
+ */
+$conf_log_file = 'cameracontrol.log';
+
+/* $conf_data_file
+ *
+ * Set the full or relative path to data file.
+ * The data file store information regarding Surveillance Station state in order
+ * to save some API calls.
+ * This file must be writable by web server user.
+ *
+ */
+$conf_data_file = 'cameracontrol.dat';
+
+?>
