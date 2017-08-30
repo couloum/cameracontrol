@@ -1,2 +1,4 @@
 ui/config.php
+var/cameracontrol.log
+var/cameracontrol.dat
 api/config.php

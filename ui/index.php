@@ -7,10 +7,13 @@
  *
  */
 
-require('config.php');
+$conf = include('config.php');
+
 
 function api_call($action) {
-  $api_url = $conf_api_url;
+  global $conf;
+
+  $api_url = $conf['api_url'];
   $full_url = sprintf("%s?action=%s", $api_url, $action);
 
   $ch = curl_init();
@@ -37,6 +40,7 @@ function api_call($action) {
 }
 
 function _update_status($req_src, $req_action) {
+  global $conf;
 
   switch($req_action) {
     case 'activate':
@@ -55,13 +59,15 @@ function _update_status($req_src, $req_action) {
     'ip'     => $_SERVER['REMOTE_ADDR'],
     'state'  => $state,
   ));
-  $f = fopen($conf_data_file, 'w+');
+  $f = fopen($conf['data_file'], 'w+');
   $r = fwrite($f, $status);
   fclose($f);
 }
 
 function _get_status() {
-  $f = fopen($conf_data_file, 'r+');
+  global $conf;
+
+  $f = fopen($conf['data_file'], 'r+');
   $r = fgets($f);
   fclose($f);
 
@@ -69,6 +75,8 @@ function _get_status() {
 }
 
 function _log($req_src, $req_action, $ret_code, $ret_msg) {
+  global $conf;
+
   $log = sprintf("%s %-15s %s %-10s %s \"%s\"",
     date("r"),
     $_SERVER['REMOTE_ADDR'],
@@ -77,7 +85,7 @@ function _log($req_src, $req_action, $ret_code, $ret_msg) {
     $ret_code,
     $ret_msg
   );
-  $f = fopen($conf_log_file, 'a+');
+  $f = fopen($conf['log_file'], 'a+');
   $r = fwrite($f, "$log\n");
   fclose($f);
 
@@ -87,7 +95,9 @@ function _log($req_src, $req_action, $ret_code, $ret_msg) {
 }
 
 function _get_last_logs($nblines) {
-  exec("tail -$nblines $conf_log_file", $output);
+  global $conf;
+
+  exec("tail -$nblines " . $conf['log_file'], $output);
   return implode("\n", array_reverse($output));
 }
 
