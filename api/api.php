@@ -8,12 +8,12 @@
  */
 
 require('class/ssapi.php');
-require('config.php');
+$conf = include('config.php');
 
-$verbose   = $conf_verbose;
-$base_url  = $conf_base_url;
-$ss_user   = $conf_ss_user;
-$ss_passwd = $conf_ss_passwd;
+$verbose   = $conf['verbose'];
+$base_url  = $conf['base_url'];
+$ss_user   = $conf['ss_user'];
+$ss_passwd = $conf['ss_passwd'];
 
 
 $code = 200;
@@ -22,6 +22,7 @@ $msg = "OK";
 switch ($_GET['action']) {
 case 'activate':
   $ssapi = new ssapi($base_url);
+  $ssapi->verbose = $verbose;
   try {
     $ssapi->connect($ss_user, $ss_passwd);
     $ssapi->enable_alerts();
@@ -35,6 +36,7 @@ case 'activate':
 
 case 'deactivate':
   $ssapi = new ssapi($base_url);
+  $ssapi->verbose = $verbose;
   try {
     $ssapi->connect($ss_user, $ss_passwd);
     $ssapi->disable_alerts();
@@ -53,4 +55,5 @@ default:
 }
 
 echo json_encode(array('code' => $code, 'message' => $msg));
+echo "\n";
 ?>

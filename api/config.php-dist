@@ -1,33 +1,39 @@
 <?php
 
-/* $conf_base_url
+$conf = array(
+
+/* base_url
  *
  * Set the URL to Synology Surveillance Station.
  *
  */
-$conf_base_url = 'https://<<PUT SYNOLOGY ADDRESS HERE>>:5001/webapi/';
+'base_url' => 'https://<<PUT SYNOLOGY ADDRESS HERE>>:5001/webapi/',
 
-/* $conf_ss_user
+/* ss_user
  *
  * Set the username to use to connet to Synology Surveillance Station.
  * This user must be administrator.
  *
  */
-$ss_user = 'admin';
+'ss_user' => 'admin',
 
-/* $conf_ss_passwd
+/* ss_passwd
  *
  * Set the password for the user that connect to Synology Surveillance Station.
  *
  */
-$ss_passwd = '<<PUT YOUR PASSWORD HERE>>';
+'ss_passwd' => '<<PUT YOUR PASSWORD HERE>>',
 
 
-/* $conf_verbose
+/* verbose
  *
  * Set to true to activate verbose output of the API (will break the API ressults).
  *
  */
-$conf_verbose = false;
+'verbose' => false,
+
+);
+
+return $conf;
 
 ?>

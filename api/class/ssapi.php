@@ -135,8 +135,8 @@ class ssapi {
 
   public function call($api, $method, $params = array()) {
     $this->_ensure_authenticated();
-    $this->_get($api, $method, $params);
-    return true;
+    $data = $this->_get($api, $method, $params);
+    return $data;
   }
 
   private function _get_api_url($api) {
@@ -158,7 +158,7 @@ class ssapi {
   }
 
   private function _log($msg) {
-    if ($this->_verbose) {
+    if ($this->verbose) {
       echo "$msg\n";
     }
   }
@@ -199,7 +199,7 @@ class ssapi {
 
     // Failure if return code is not success
     if ($data['success'] === false) {
-      $this->_throw_exception("API returned a failure with error code " . $data['error']['code']);
+      $this->_throw_exception("API '$api' with method '$method' returned a failure with error code " . $data['error']['code']);
     }
 
     if (isset($data['data'])) {
