@@ -25,8 +25,9 @@ case 'activate':
   $ssapi->verbose = $verbose;
   try {
     $ssapi->connect($ss_user, $ss_passwd);
-    $ssapi->enable_alerts();
-    $ssapi->activate_action_rule();
+    //$ssapi->enable_alerts();
+    //$ssapi->activate_action_rule();
+    $ssapi->deactivate_home_mode();
     $msg = "Camera alerts are now active";
   } catch (Exception $e) {
     $code = 500;
@@ -39,8 +40,9 @@ case 'deactivate':
   $ssapi->verbose = $verbose;
   try {
     $ssapi->connect($ss_user, $ss_passwd);
-    $ssapi->disable_alerts();
-    $ssapi->deactivate_action_rule();
+    //$ssapi->disable_alerts();
+    //$ssapi->deactivate_action_rule();
+    $ssapi->activate_home_mode();
     $msg = "Camera alerts are now inactive";
   } catch (Exception $e) {
     $code = 500;

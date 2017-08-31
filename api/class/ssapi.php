@@ -33,7 +33,7 @@ class ssapi {
 
   public function connect($login, $password) {
     if(!isset($this->_api_auth_info)) {
-      $this->_get_api_info(array('SYNO.API.Auth', 'SYNO.SurveillanceStation.Notification.Filter', 'SYNO.SurveillanceStation.ActionRule'));
+      $this->_get_api_info(array('SYNO.API.Auth', 'SYNO.SurveillanceStation.Notification.Filter', 'SYNO.SurveillanceStation.ActionRule', 'SYNO.SurveillanceStation.HomeMode'));
     }
 
     $data = $this->_get('SYNO.API.Auth', 'Login', array('account' => $login, 'passwd' => $password, 'session' => 'SurveillanceStation', 'format' => 'id'));
@@ -133,19 +133,34 @@ class ssapi {
     return true;
   }
 
+  public function activate_home_mode() {
+    $this->_ensure_authenticated();
+    $this->_get('SYNO.SurveillanceStation.HomeMode', 'Switch', array('on' => 1));
+    return true;
+  }
+
+  public function deactivate_home_mode() {
+    $this->_ensure_authenticated();
+    $this->_get('SYNO.SurveillanceStation.HomeMode', 'Switch', array('on' => 0));
+    return true;
+  }
+
   public function call($api, $method, $params = array()) {
     $this->_ensure_authenticated();
     $data = $this->_get($api, $method, $params);
     return $data;
   }
 
-  private function _get_api_url($api) {
+  private function _get_api_url($api, $fail_if_not_found = false) {
     if (isset($this->_api_info[$api])) {
       return $this->_api_info[$api]['path'];
     } elseif ($api == "SYNO.API.Info") {
       return "query.cgi";
+    } elseif($fail_if_not_found) {
+      $this->_throw_exception("Could not find API information for API $api");
     } else {
-      $this->_get_api_info($api);
+      $this->_get_api_info(array($api));
+      return $this->_get_api_url($api, true);
     }
   }
 
